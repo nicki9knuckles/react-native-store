@@ -1837,6 +1837,13 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
+babel-plugin-inline-dotenv@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.6.0.tgz#ebb3ff358507d0e76e52ea8a53fe0b073d9e71b8"
+  integrity sha512-oWd5JmwfzdFN38PMBn35Ac1d+DKCkgIxKieEyWON3QTa4hCZV+VcTxaYkfQFMTwiqgCxe0a8o8NWyVjWwrrLXw==
+  dependencies:
+    dotenv "^8.2.0"
+
 babel-plugin-module-resolver@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/babel-plugin-module-resolver/-/babel-plugin-module-resolver-4.1.0.tgz"
@@ -2497,6 +2504,16 @@ destroy@~1.0.4:
   resolved "https://registry.npmjs.org/destroy/-/destroy-1.0.4.tgz"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
+dotenv@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-15.0.0.tgz#2a585639429bf2c2c62f387f0fffde9c75aafde0"
+  integrity sha512-/l1sXXm79ry34KwwS0y4oVZjB468iw/6u9g1W26dtexKcIJAnVL2pMF+hxQwzZ7LutxOwEgtym9eIxvX33CMKg==
+
+dotenv@^8.2.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
+  integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -2652,7 +2669,7 @@ expo-asset@~8.4.6:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
-expo-constants@~13.0.0:
+expo-constants@~13.0.0, expo-constants@~13.0.1:
   version "13.0.1"
   resolved "https://registry.npmjs.org/expo-constants/-/expo-constants-13.0.1.tgz"
   integrity sha512-48rhXCZMJGVx/v4DEd9PqTY6V/xLgtWHBy8nos27QIpYCyiC27I3QUQEUI1T3MXUwBsIR4LLJuwnD/4IfftrBw==
@@ -4861,6 +4878,11 @@ redux-devtools-extension@^2.13.9:
   version "2.13.9"
   resolved "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.9.tgz"
   integrity sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==
+
+redux-thunk@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.1.tgz#0dd8042cf47868f4b29699941de03c9301a75714"
+  integrity sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==
 
 redux@^4.0.0, redux@^4.1.2:
   version "4.1.2"
