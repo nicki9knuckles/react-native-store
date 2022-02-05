@@ -1,4 +1,10 @@
-import React, { useCallback, useLayoutEffect, useReducer } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useReducer,
+  useEffect,
+} from 'react'
 import {
   View,
   ScrollView,
@@ -6,6 +12,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  ActivityIndicator,
 } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,10 +20,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import HeaderButton from '../../components/UI/HeaderButton'
 import * as productsActions from '../../store/actions/products'
 import Input from '../../components/UI/Input'
+import Colors from '../../constants/Colors'
 
 const FORM_INPUT_UPDATE = 'UPDATE'
 const formReducer = (state, action) => {
-  if (action.type === 'FORM_INPUT_UPDATE') {
+  if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
       ...state.inputValues,
       [action.input]: action.value,
@@ -39,10 +47,14 @@ const formReducer = (state, action) => {
 }
 
 const EditProductScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState()
+
   let prodId = props.route.params?.productId
   const editedProduct = useSelector((state) =>
     state.products.userProducts.find((prod) => prod.id === prodId)
   )
+
   const dispatch = useDispatch()
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -61,36 +73,49 @@ const EditProductScreen = (props) => {
     formIsValid: editedProduct ? true : false,
   })
 
-  const submitHandler = () => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An error occurred!', error, [{ text: 'Okay' }])
+    }
+  }, [error])
+
+  const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert('Incorrect input!', 'Please check the errors in the form.', {
         text: 'Okay',
       })
       return
     }
-
-    if (editedProduct) {
-      dispatch(
-        productsActions.updateProduct(
-          prodId,
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl
+    setError(null)
+    setIsLoading(true)
+    try {
+      if (editedProduct) {
+        await dispatch(
+          productsActions.updateProduct(
+            prodId,
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl
+          )
         )
-      )
-    } else {
-      dispatch(
-        productsActions.createProduct(
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl,
-          +formState.inputValues.price
+      } else {
+        await dispatch(
+          productsActions.createProduct(
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
+          )
         )
-      )
+      }
+      props.navigation.goBack()
+    } catch (err) {
+      console.log('we have an error-----')
+      setError(err.message)
     }
-    props.navigation.goBack()
-  }
-  // TODO NICK, typing in a input isn't work, i think we need to maybe wrap the handler in useCallback and add the form as a dep? maybe
+    setIsLoading(false)
+  }, [formState, editedProduct])
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: prodId ? 'Edit Product' : 'Add Product',
@@ -106,7 +131,7 @@ const EditProductScreen = (props) => {
         </HeaderButtons>
       ),
     })
-  }, [prodId])
+  }, [prodId, formState, editedProduct])
 
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -119,6 +144,14 @@ const EditProductScreen = (props) => {
     },
     [dispatchFormState]
   )
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size='large' color={Colors.primary} />
+      </View>
+    )
+  }
 
   return (
     <KeyboardAvoidingView
@@ -188,6 +221,11 @@ const EditProductScreen = (props) => {
 const styles = StyleSheet.create({
   form: {
     margin: 20,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 
